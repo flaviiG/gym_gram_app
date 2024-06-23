@@ -10,6 +10,7 @@ class Feed extends AutoDisposeAsyncNotifier<List<Post>> {
     return getFeed();
   }
 
+// TODO: Show only new posts - update the viewedPosts array
   Future<void> refreshFeed() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() => getFeed());

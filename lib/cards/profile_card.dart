@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gym_gram_app/models/user.dart';
 import 'package:gym_gram_app/providers/user_provider.dart';
 import 'package:gym_gram_app/services/user_api.dart';
+import 'package:gym_gram_app/utils/globals.dart';
 
 class ProfileCard extends ConsumerStatefulWidget {
   const ProfileCard({super.key, required this.user});
@@ -69,10 +70,9 @@ class _ProfileCardState extends ConsumerState<ProfileCard> {
                 width: 150,
                 child: CircleAvatar(
                   backgroundImage: CachedNetworkImageProvider(
-                      'http://10.0.2.2:8080/img/users/${widget.user.photo}'),
+                      '$kBaseStorageUrl/users/${widget.user.photo}'),
                 ),
               ),
-              const SizedBox(width: 30),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -88,29 +88,26 @@ class _ProfileCardState extends ConsumerState<ProfileCard> {
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Column(
                           children: [
-                            const Text('followers'),
                             Text(
                               _numFollowers.toString(),
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
-                            )
+                            ),
+                            const Text('followers'),
                           ],
-                        ),
-                        const SizedBox(
-                          width: 50,
                         ),
                         Column(
                           children: [
-                            const Text('following'),
                             Text(
                               widget.user.numFollowing.toString(),
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
-                            )
+                            ),
+                            const Text('following'),
                           ],
                         )
                       ],

@@ -1,5 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-const kBaseStorageUrl = 'http://10.0.2.2:8080/img';
+const kApiBaseUrl = 'https://gym-gram-api.onrender.com/api/v1';
+
+const kBaseStorageUrl = 'https://gym-gram-api.onrender.com/img';
 
 const storage = FlutterSecureStorage();

@@ -41,8 +41,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       return;
     }
     try {
-      AuthApi authApi = AuthApi();
-      String? jwt = await authApi.register(email, username, password);
+      String? jwt = await register(email, username, password);
 
       if (jwt != null) {
         await storage.write(key: 'jwt', value: jwt);
@@ -50,7 +49,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         await ref.read(userProvider.notifier).fetchUser();
 
         ref.invalidate(workoutsProvider);
-        ref.invalidate(savedWorkoutsProvider);
+        ref.invalidate(savedWorkoutsAsyncProvider);
         // ref.invalidate(feedAsyncProvider);
         if (!context.mounted) {
           return;

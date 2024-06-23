@@ -5,7 +5,7 @@ import 'package:gym_gram_app/utils/globals.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
-const baseUrl = 'http://10.0.2.2:8080/api/v1/users';
+const baseUrl = '$kApiBaseUrl/users';
 
 final dio = Dio();
 

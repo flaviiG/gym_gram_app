@@ -19,7 +19,7 @@ class _WorkoutsScreenState extends ConsumerState<WorkoutsScreen> {
   @override
   Widget build(BuildContext context) {
     final workoutsAsync = ref.watch(workoutsProvider);
-    final savedWorkoutsAsync = ref.watch(savedWorkoutsProvider);
+    final savedWorkoutsAsync = ref.watch(savedWorkoutsAsyncProvider);
 
     return DefaultTabController(
       length: 2,

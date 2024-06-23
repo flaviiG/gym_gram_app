@@ -1,8 +1,9 @@
 import 'package:gym_gram_app/models/exercise.dart';
 
 import 'package:dio/dio.dart';
+import 'package:gym_gram_app/utils/globals.dart';
 
-const baseUrl = 'http://10.0.2.2:8080';
+const baseUrl = '$kApiBaseUrl/exercises';
 
 final dio = Dio();
 
@@ -10,7 +11,7 @@ Future<List<Exercise>> getExerciseList(String username) async {
   Response response;
 
   response = await dio.get(
-    '$baseUrl/api/v1/exercises',
+    baseUrl,
     queryParameters: {
       'createdBy': 'GymGram',
     },

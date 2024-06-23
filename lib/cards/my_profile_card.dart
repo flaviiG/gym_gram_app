@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gym_gram_app/models/user.dart';
 import 'package:gym_gram_app/providers/user_provider.dart';
 import 'package:gym_gram_app/services/user_api.dart';
+import 'package:gym_gram_app/utils/globals.dart';
 import 'package:gym_gram_app/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -49,13 +50,12 @@ class _MyProfileCardState extends ConsumerState<MyProfileCard> {
                     width: 150,
                     child: CircleAvatar(
                       backgroundImage: CachedNetworkImageProvider(
-                          'http://10.0.2.2:8080/img/users/${user.photo}'),
+                          '$kBaseStorageUrl/users/${user.photo}'),
                     ),
                   ),
                   IconButton(
                     onPressed: () {
-                      _selectImage(
-                          'http://10.0.2.2:8080/img/users/${user.photo}');
+                      _selectImage('$kBaseStorageUrl/users/${user.photo}');
                     },
                     icon: const Icon(
                       size: 30,
@@ -65,7 +65,7 @@ class _MyProfileCardState extends ConsumerState<MyProfileCard> {
                   ),
                 ],
               ),
-              const SizedBox(width: 30),
+              // const SizedBox(width: 30),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -81,29 +81,26 @@ class _MyProfileCardState extends ConsumerState<MyProfileCard> {
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Column(
                           children: [
-                            const Text('followers'),
                             Text(
                               user.numFollowers.toString(),
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
-                            )
+                            ),
+                            const Text('followers'),
                           ],
-                        ),
-                        const SizedBox(
-                          width: 50,
                         ),
                         Column(
                           children: [
-                            const Text('following'),
                             Text(
                               user.numFollowing.toString(),
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
-                            )
+                            ),
+                            const Text('following'),
                           ],
                         )
                       ],

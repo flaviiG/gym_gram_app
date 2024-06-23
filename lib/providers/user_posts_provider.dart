@@ -12,7 +12,7 @@ class UserPostsNotifier extends StateNotifier<List<Post>> {
   }
 
   Future<void> likePost(String postId, String currentUserId) async {
-    await likePostApi(postId);
+    likePostApi(postId);
 
     if (state.isEmpty) {
       return;
@@ -32,7 +32,7 @@ class UserPostsNotifier extends StateNotifier<List<Post>> {
   }
 
   Future<void> unlikePost(String postId, String currentUserId) async {
-    await unlikePostApi(postId);
+    unlikePostApi(postId);
 
     if (state.isEmpty) {
       return;

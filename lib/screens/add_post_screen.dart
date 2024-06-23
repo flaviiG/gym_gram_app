@@ -55,6 +55,13 @@ class _AddPostScreenState extends ConsumerState<AddPostScreen> {
       }
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Post created!')));
+
+      setState(() {
+        _selectedPhoto = null;
+        _selectedWorkout = null;
+        descriptionController.text = '';
+        _index = 0;
+      });
     }
   }
 

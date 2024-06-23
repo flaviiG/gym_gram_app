@@ -27,7 +27,7 @@ class MyPostsNotifier extends StateNotifier<List<Post>> {
   }
 
   Future<void> likePost(String postId) async {
-    await likePostApi(postId);
+    likePostApi(postId);
 
     // Update the local state
     state = state.map((post) {
@@ -44,7 +44,7 @@ class MyPostsNotifier extends StateNotifier<List<Post>> {
   }
 
   Future<void> unlikePost(String postId) async {
-    await unlikePostApi(postId);
+    unlikePostApi(postId);
 
     // Update the local state
     state = state.map((post) {

@@ -27,12 +27,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   //
   Future<void> _login(
       BuildContext context, String username, String password) async {
-    AuthApi authApi = AuthApi();
     setState(() {
       _isLoading = true;
     });
     try {
-      String? jwt = await authApi.login(username, password);
+      String? jwt = await login(username, password);
 
       if (jwt != null) {
         await storage.write(key: 'jwt', value: jwt);
@@ -40,7 +39,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         await ref.read(userProvider.notifier).fetchUser();
 
         ref.invalidate(workoutsProvider);
-        ref.invalidate(savedWorkoutsProvider);
+        ref.invalidate(savedWorkoutsAsyncProvider);
         // ref.invalidate(feedAsyncProvider);
         if (!context.mounted) {
           return;

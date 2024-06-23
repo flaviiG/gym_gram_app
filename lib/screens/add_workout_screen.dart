@@ -6,6 +6,26 @@ import 'package:gym_gram_app/models/workout.dart';
 import 'package:gym_gram_app/providers/exercises_provider.dart';
 import 'package:gym_gram_app/providers/workouts_provider.dart';
 import 'package:gym_gram_app/services/workout_api.dart';
+import 'package:search_choices/search_choices.dart';
+
+const muscleGroups = [
+  'Back',
+  'Chest',
+  'Biceps',
+  'Triceps',
+  'Shoulders',
+  'Quads',
+  'Hamstrings',
+  'Calves',
+  'Abs',
+  'Forearms',
+  'Trapezius',
+  'Lats',
+  'Glutes',
+  'Cardio',
+  'Unknown',
+  'All',
+];
 
 class AddWorkoutScreen extends ConsumerStatefulWidget {
   const AddWorkoutScreen({super.key});
@@ -19,6 +39,7 @@ class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen> {
 
   String _workoutName = '';
 
+  final List<String> _selectedMuscleGroup = [];
   final List<Exercise?> _selectedExercises = [];
   final List<List<Set>> _enteredSets = [];
 
@@ -28,6 +49,7 @@ class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen> {
 
   void _addExercise() {
     setState(() {
+      _selectedMuscleGroup.add('All');
       _selectedExercises.add(null);
       _enteredSets.add([]);
     });
@@ -83,6 +105,29 @@ class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen> {
 
       Navigator.of(context).pop();
     }
+  }
+
+  dynamic searchExercise(String keyword, items) {
+    List<int> ret = [];
+    if (items != null && keyword.isNotEmpty) {
+      keyword.split(" ").forEach((k) {
+        int i = 0;
+        items.forEach((item) {
+          if (k.isNotEmpty &&
+              (item.value.name
+                  .toString()
+                  .toLowerCase()
+                  .contains(k.toLowerCase()))) {
+            ret.add(i);
+          }
+          i++;
+        });
+      });
+    }
+    if (keyword.isEmpty) {
+      ret = Iterable<int>.generate(items.length).toList();
+    }
+    return (ret);
   }
 
   @override
@@ -149,27 +194,67 @@ class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
-                                  DropdownButtonFormField(
-                                    value: _selectedExercises[i],
-                                    hint: const Text('Select the exercise'),
-                                    items: exercises
-                                        .map((exercise) =>
-                                            DropdownMenuItem<Exercise>(
-                                              value: exercise,
-                                              child: Text(exercise.name),
-                                            ))
-                                        .toList(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _selectedExercises[i] = value;
-                                      });
-                                    },
-                                    validator: (value) {
-                                      if (value == null) {
-                                        return 'Please select an exercise';
-                                      }
-                                      return null;
-                                    },
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: SearchChoices.single(
+                                          autofocus: false,
+                                          displayClearIcon: false,
+                                          isExpanded: true,
+                                          value: _selectedMuscleGroup[i],
+                                          label: 'Muscle Group',
+                                          items: muscleGroups.map((group) {
+                                            return DropdownMenuItem<String>(
+                                              value: group,
+                                              child: Text(group),
+                                            );
+                                          }).toList(),
+                                          searchHint: "Select the muscle group",
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _selectedMuscleGroup[i] = value!;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                          child: SearchChoices.single(
+                                        autofocus: false,
+                                        displayClearIcon: false,
+                                        items: exercises
+                                            .where((exercise) =>
+                                                _selectedMuscleGroup[i] == 'All'
+                                                    ? true
+                                                    : exercise.muscleGroup ==
+                                                        _selectedMuscleGroup[i])
+                                            .map((exercise) {
+                                          return DropdownMenuItem<Exercise>(
+                                            value: exercise,
+                                            child: Text(exercise.name),
+                                          );
+                                        }).toList(),
+                                        searchFn: searchExercise,
+                                        value: _selectedExercises[i],
+                                        hint: "Select exercise",
+                                        label: 'Exercise',
+                                        searchHint: "Select exercise",
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _selectedExercises[i] = value;
+                                          });
+                                        },
+                                        isExpanded: true,
+                                        validator: (value) {
+                                          if (value == null) {
+                                            return 'Please select an exercise';
+                                          }
+                                          return null;
+                                        },
+                                      )),
+                                    ],
                                   ),
                                   for (int j = 0;
                                       j < _enteredSets[i].length;

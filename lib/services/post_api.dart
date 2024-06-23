@@ -5,7 +5,7 @@ import 'package:gym_gram_app/utils/globals.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
-const baseUrl = 'http://10.0.2.2:8080/api/v1/posts';
+const baseUrl = '$kApiBaseUrl/posts';
 
 final dio = Dio();
 
@@ -19,7 +19,6 @@ Future<List<Post>> getFeed() async {
   if (jwt == null) {
     return [];
   }
-  print(jwt);
 
   try {
     Response response = await dio.get('$baseUrl/getFeed',

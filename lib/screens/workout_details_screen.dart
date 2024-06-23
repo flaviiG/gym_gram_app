@@ -20,11 +20,15 @@ class WorkoutDetailsScreen extends ConsumerStatefulWidget {
 class _WorkoutDetailsScreenState extends ConsumerState<WorkoutDetailsScreen> {
   //
   late bool _isSaved;
+  bool _isLoading = false;
 
   @override
   void initState() {
-    _isSaved =
-        ref.read(userProvider)!.savedWorkouts.contains(widget.workout.id);
+    _isSaved = ref
+        .read(savedWorkoutsAsyncProvider)
+        .whenData(
+            (workouts) => workouts.map((w) => w.id).contains(widget.workout.id))
+        .value!;
     super.initState();
   }
 
@@ -43,21 +47,33 @@ class _WorkoutDetailsScreenState extends ConsumerState<WorkoutDetailsScreen> {
                 ]
               : [
                   IconButton(
-                      onPressed: () {
-                        if (_isSaved) {
-                          ref
-                              .read(userProvider.notifier)
-                              .removeSavedWorkout(widget.workout.id);
-                        } else {
-                          ref
-                              .read(userProvider.notifier)
-                              .saveWorkout(widget.workout.id);
-                        }
-                        ref.invalidate(savedWorkoutsProvider);
-                        setState(() {
-                          _isSaved = !_isSaved;
-                        });
-                      },
+                      onPressed: _isLoading
+                          ? null
+                          : () async {
+                              setState(() {
+                                _isLoading = true;
+                              });
+                              try {
+                                if (_isSaved) {
+                                  await ref
+                                      .read(savedWorkoutsAsyncProvider.notifier)
+                                      .removeSavedWorkout(widget.workout);
+                                } else {
+                                  await ref
+                                      .read(savedWorkoutsAsyncProvider.notifier)
+                                      .saveWorkout(widget.workout);
+                                }
+
+                                setState(() {
+                                  _isSaved = !_isSaved;
+                                  _isLoading = false;
+                                });
+                              } catch (err) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Something went wrong')));
+                              }
+                            },
                       icon: _isSaved
                           ? const Icon(CupertinoIcons.bookmark_fill)
                           : const Icon(CupertinoIcons.bookmark))

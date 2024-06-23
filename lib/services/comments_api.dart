@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:gym_gram_app/utils/globals.dart';
 
-const baseUrl = 'http://10.0.2.2:8080/api/v1/comments';
+const baseUrl = '$kApiBaseUrl/comments';
 
 final dio = Dio();
 

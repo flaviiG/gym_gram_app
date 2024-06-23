@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 
 final dio = Dio();
 
-const baseUrl = 'http://10.0.2.2:8080/api/v1/workouts';
+const baseUrl = '$kApiBaseUrl/workouts';
 
 Future<List<Workout>> getMyWorkouts() async {
   //
