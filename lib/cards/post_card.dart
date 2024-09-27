@@ -230,7 +230,7 @@ class _PostCardState extends ConsumerState<PostCard> {
       elevation: 2,
       margin: const EdgeInsets.only(top: 15, bottom: 15),
       child: SizedBox(
-        height: 700,
+        height: 710,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -305,33 +305,79 @@ class _PostCardState extends ConsumerState<PostCard> {
               width: double.infinity,
               child: Text(
                 widget.post.description,
-                style: const TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 18),
               ),
             ),
-            Row(children: [
-              Container(
-                padding: const EdgeInsets.only(left: 15),
-                child: GestureDetector(
-                    onTap: _isLiked ? _unlikePost : _likePost,
-                    child: Icon(
-                      _isLiked
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      size: 30,
-                      color: _isLiked ? Colors.red : Colors.white,
-                    )),
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 15),
-                child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (ctx) =>
-                              CommentsScreen(postId: widget.post.id)));
-                    },
-                    child: const Icon(CupertinoIcons.chat_bubble, size: 30)),
-              )
-            ]),
+            SizedBox(
+              width: double.infinity,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: GestureDetector(
+                              onTap: _isLiked ? _unlikePost : _likePost,
+                              child: Icon(
+                                _isLiked
+                                    ? CupertinoIcons.heart_fill
+                                    : CupertinoIcons.heart,
+                                size: 30,
+                                color: _isLiked ? Colors.red : Colors.white,
+                              )),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (ctx) => CommentsScreen(
+                                        postId: widget.post.id)));
+                              },
+                              child: const Icon(CupertinoIcons.chat_bubble,
+                                  size: 30)),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            widget.post.numLikes.toString(),
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontFamily: 'FjallaOne',
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            widget.post.numLikes == 1 ? 'Like' : 'Likes',
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            widget.post.numComments.toString(),
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontFamily: 'FjallaOne',
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            widget.post.numComments == 1
+                                ? 'Comment'
+                                : 'Comments',
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                  ]),
+            ),
           ],
         ),
       ),

@@ -53,6 +53,26 @@ class Feed extends AutoDisposeAsyncNotifier<List<Post>> {
       }).toList();
     });
   }
+
+  Future<void> updateNumComments(String postId, int numComments) async {
+    // Update the local state
+    await update(
+      (previousState) {
+        if (!previousState.any((p) => p.id == postId)) {
+          return previousState;
+        }
+        final newState = previousState.map((post) {
+          if (post.id == postId) {
+            return post.copyWith(
+              numComments: numComments,
+            );
+          }
+          return post;
+        }).toList();
+        return newState;
+      },
+    );
+  }
 }
 
 final feedAsyncProvider =

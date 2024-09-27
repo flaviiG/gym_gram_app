@@ -98,8 +98,6 @@ Future<List<Comment>> getPostComments(String postId) async {
       return [];
     }
 
-    print(commentsData);
-
     final List<Comment> comments = commentsData
         .map<Comment>((commentJson) => Comment.fromJson(commentJson))
         .toList();

@@ -42,7 +42,9 @@ class WorkoutCard extends StatelessWidget {
                       Text(
                         workout.name,
                         style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -57,12 +59,16 @@ class WorkoutCard extends StatelessWidget {
                       Text(
                         numExercises.toString(),
                         style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'FjallaOne',
+                        ),
                       ),
                       Text(
                         numExercises == 1 ? 'exercise' : 'exercises',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ],
                   ),
@@ -74,9 +80,15 @@ class WorkoutCard extends StatelessWidget {
                       Text(
                         numSets.toString(),
                         style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'FjallaOne',
+                        ),
                       ),
-                      Text(numSets == 1 ? 'set' : 'sets'),
+                      Text(
+                        numSets == 1 ? 'set' : 'sets',
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ],
                   ),
                 )

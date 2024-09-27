@@ -78,157 +78,133 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Color(0xff545454), Color(0xff000000), Color(0xff250404)],
-            stops: [0.1, 0.5, 0.75],
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-          )),
-        ),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // const SizedBox(height: 20),
+                // logo
+                Image.asset(
+                  'assets/images/gymGram.png',
+                  height: 70,
+                ),
+
+                const SizedBox(height: 60),
+
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Text(
+                    _message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: _messageColor,
+                      fontSize: 20,
+                      fontFamily: 'FjallaOne',
+                      // fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                TextInput(
+                  placeholder: 'myEmail@example.com',
+                  label: 'Email',
+                  controller: emailController,
+                  isPassword: false,
+                ),
+
+                const SizedBox(height: 10),
+
+                TextInput(
+                  placeholder: 'yourUsername',
+                  label: 'Username',
+                  controller: usernameController,
+                  isPassword: false,
+                ),
+
+                const SizedBox(height: 10),
+
+                TextInput(
+                  placeholder: '********',
+                  label: 'Password',
+                  controller: passwordController,
+                  isPassword: true,
+                ),
+
+                const SizedBox(height: 10),
+                TextInput(
+                  label: 'Confirm password',
+                  placeholder: '********',
+                  controller: passwordConfirmController,
+                  isPassword: true,
+                ),
+
+                const SizedBox(height: 10),
+
+                LoginButton(
+                    child: _isLoading
+                        ? const AspectRatio(
+                            aspectRatio: 1 / 1,
+                            child: Padding(
+                              padding: EdgeInsets.all(20),
+                              child: CircularProgressIndicator.adaptive(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            ),
+                          )
+                        : const Text(
+                            'Register',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                    onClick: () {
+                      _register(
+                          emailController.text,
+                          usernameController.text,
+                          passwordController.text,
+                          passwordConfirmController.text);
+                    }),
+
+                const SizedBox(height: 40),
+
+                // not a member? register now
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // const SizedBox(height: 20),
-                    // logo
-                    Image.asset(
-                      'assets/images/gymGram.png',
-                      height: 120,
-                    ),
-
-                    const SizedBox(height: 50),
-
-                    // welcome back, you've been missed!
                     Text(
-                      _message,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'FjallaOne',
-                        color: _messageColor,
-                        // fontWeight: FontWeight.bold,
+                      'Already a member?',
+                      style: TextStyle(color: Colors.grey[100], fontSize: 18),
+                    ),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (ctx) => const LoginScreen()));
+                      },
+                      child: const Text(
+                        'Log in',
+                        style: TextStyle(
+                          color: CupertinoColors.activeOrange,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
-
-                    const SizedBox(height: 50),
-
-                    TextInput(
-                      placeholder: 'Email',
-                      controller: emailController,
-                      isPassword: false,
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    TextInput(
-                      placeholder: 'Username',
-                      controller: usernameController,
-                      isPassword: false,
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    TextInput(
-                      placeholder: 'Password',
-                      controller: passwordController,
-                      isPassword: true,
-                    ),
-
-                    const SizedBox(height: 10),
-                    TextInput(
-                      placeholder: 'Confirm password',
-                      controller: passwordConfirmController,
-                      isPassword: true,
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    LoginButton(
-                        child: _isLoading
-                            ? const AspectRatio(
-                                aspectRatio: 1 / 1,
-                                child: CircularProgressIndicator.adaptive())
-                            : const Text(
-                                'Register',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                        onClick: () {
-                          _register(
-                              emailController.text,
-                              usernameController.text,
-                              passwordController.text,
-                              passwordConfirmController.text);
-                        }),
-
-                    // forgot password?
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            onTap: () => {
-                              // Navigator.of(context).push(MaterialPageRoute(
-                              //     builder: (context) => ForgotPasswordPage()))
-                            },
-                            child: Text(
-                              'Forgot Password?',
-                              style: TextStyle(color: Colors.grey[500]),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 25),
-
-                    const SizedBox(height: 50),
-
-                    // not a member? register now
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Already a member?',
-                          style:
-                              TextStyle(color: Colors.grey[100], fontSize: 20),
-                        ),
-                        const SizedBox(width: 8),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (ctx) => const LoginScreen()));
-                          },
-                          child: const Text(
-                            'Log in',
-                            style: TextStyle(
-                              color: CupertinoColors.activeOrange,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
                   ],
-                ),
-              ),
+                )
+              ],
             ),
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }

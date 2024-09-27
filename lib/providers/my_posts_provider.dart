@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gym_gram_app/models/post.dart';
 import 'package:gym_gram_app/services/post_api.dart';
@@ -59,6 +61,14 @@ class MyPostsNotifier extends StateNotifier<List<Post>> {
       return post;
     }).toList();
   }
+
+  void updateNumComments(String postId, int numComments) {
+    print('DEBUG::::::::::updating num commetnss');
+    state = state
+        .map((post) =>
+            post.id == postId ? post.copyWith(numComments: numComments) : post)
+        .toList();
+  }
 }
 
 final myPostsProvider =
@@ -72,3 +82,10 @@ final fetchMyPostsProvider =
   final loadedPosts = postsProvider.fetchPosts(userId);
   return loadedPosts;
 });
+
+class MyPosts extends AutoDisposeFamilyAsyncNotifier<List<Post>, String> {
+  @override
+  FutureOr<List<Post>> build(String arg) {
+    return getUserPosts(arg);
+  }
+}

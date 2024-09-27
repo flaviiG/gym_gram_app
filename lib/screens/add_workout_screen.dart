@@ -142,7 +142,13 @@ class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen> {
                     ? const CupertinoActivityIndicator(
                         color: CupertinoColors.activeBlue,
                       )
-                    : const Text('Add'))
+                    : Text(
+                        'Add',
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ))
           ],
         ),
         body: exercisesAsync.when(
@@ -154,6 +160,7 @@ class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen> {
               children: [
                 const Text(
                   'Create your workout',
+                  textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 35),
                 ),
                 const SizedBox(height: 20),
@@ -329,7 +336,13 @@ class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen> {
                             onPressed: () {
                               _addExercise();
                             },
-                            child: const Text('Add exercise'))
+                            child: Text(
+                              'Add exercise',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                            ))
                       ],
                     ))
               ],

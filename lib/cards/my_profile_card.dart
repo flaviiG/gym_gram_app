@@ -90,7 +90,10 @@ class _MyProfileCardState extends ConsumerState<MyProfileCard> {
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                            const Text('followers'),
+                            const Text(
+                              'followers',
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ],
                         ),
                         Column(
@@ -100,7 +103,10 @@ class _MyProfileCardState extends ConsumerState<MyProfileCard> {
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                            const Text('following'),
+                            const Text(
+                              'following',
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ],
                         )
                       ],

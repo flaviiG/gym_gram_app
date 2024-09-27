@@ -38,8 +38,8 @@ class PostsGrid extends ConsumerWidget {
                           onLongPress: () {},
                           onTap: () => Navigator.of(context).push(
                             TransparentRoute(
-                                builder: (ctx) =>
-                                    PostDetailsScreen(post: posts[index])),
+                                builder: (ctx) => PostDetailsScreen(
+                                    postId: posts[index].id, myPost: false)),
                           ),
                           child: CachedNetworkImage(
                             fadeInDuration: const Duration(milliseconds: 100),

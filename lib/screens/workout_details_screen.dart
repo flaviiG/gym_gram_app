@@ -24,6 +24,7 @@ class _WorkoutDetailsScreenState extends ConsumerState<WorkoutDetailsScreen> {
 
   @override
   void initState() {
+    print('Checking saved');
     _isSaved = ref
         .read(savedWorkoutsAsyncProvider)
         .whenData(
@@ -126,9 +127,15 @@ class _WorkoutDetailsScreenState extends ConsumerState<WorkoutDetailsScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('${s.reps} reps'),
+                                  Text(
+                                    '${s.reps} reps',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
                                   const SizedBox(width: 20),
-                                  Text('${s.weight} kg')
+                                  Text(
+                                    '${s.weight} kg',
+                                    style: const TextStyle(fontSize: 16),
+                                  )
                                 ],
                               ),
                             ),

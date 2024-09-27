@@ -26,23 +26,25 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Gym Gram',
       theme: ThemeData(
-        primaryColor: CupertinoColors.activeBlue,
+        fontFamily: 'Jost',
+        primaryColor: CupertinoColors.activeOrange,
         iconTheme: const IconThemeData(color: CupertinoColors.white),
-        textTheme: Typography.whiteCupertino,
         colorScheme:
             ColorScheme.fromSeed(seedColor: CupertinoColors.activeBlue),
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
-        primaryColor: CupertinoColors.activeBlue,
+        fontFamily: 'Jost',
+        primaryColor: CupertinoColors.activeOrange,
         iconTheme: const IconThemeData(color: CupertinoColors.white),
-        textTheme: Typography.whiteCupertino,
+        buttonTheme: const ButtonThemeData()
+            .copyWith(buttonColor: CupertinoColors.white),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: CupertinoColors.activeBlue,
-          brightness: Brightness.dark,
-        ),
+            seedColor: CupertinoColors.activeBlue,
+            brightness: Brightness.dark,
+            primary: CupertinoColors.white),
         useMaterial3: true,
       ),
       themeMode: ThemeMode.dark,
@@ -56,13 +58,10 @@ class MyApp extends ConsumerWidget {
           },
           error: (error, stackTrace) {
             FlutterNativeSplash.remove();
-            return error.toString() == 'Exception jwt expired'
-                ? const LoginScreen()
-                : Scaffold(
-                    body: Center(
-                      child: Text(error.toString()),
-                    ),
-                  );
+            // show modal bottom info
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(error.toString())));
+            return const LoginScreen();
           },
           data: (user) {
             FlutterNativeSplash.remove();

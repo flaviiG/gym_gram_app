@@ -60,8 +60,8 @@ class SavedWorkouts extends AutoDisposeAsyncNotifier<List<Workout>> {
 
     await update(
       (previousState) {
-        previousState.add(workout);
-        return previousState;
+        final newState = [...previousState]..add(workout);
+        return newState;
       },
     );
   }
@@ -74,8 +74,9 @@ class SavedWorkouts extends AutoDisposeAsyncNotifier<List<Workout>> {
 
     await update(
       (previousState) {
-        previousState.remove(workout);
-        return previousState;
+        final newState = [...previousState]
+          ..removeWhere((w) => w.id == workout.id);
+        return newState;
       },
     );
   }

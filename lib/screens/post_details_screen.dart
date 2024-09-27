@@ -1,16 +1,27 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gym_gram_app/cards/post_card.dart';
 import 'package:gym_gram_app/models/post.dart';
+import 'package:gym_gram_app/providers/my_posts_provider.dart';
+import 'package:gym_gram_app/providers/user_posts_provider.dart';
 
-class PostDetailsScreen extends StatelessWidget {
-  const PostDetailsScreen({super.key, required this.post});
+class PostDetailsScreen extends ConsumerWidget {
+  const PostDetailsScreen(
+      {super.key, required this.postId, required this.myPost, this.post});
 
-  final Post post;
+  final String postId;
+  final bool myPost;
+  final Post? post;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final posts = post != null
+        ? null
+        : myPost
+            ? ref.watch(myPostsProvider)
+            : ref.watch(userPostsProvider);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: GestureDetector(
@@ -32,7 +43,7 @@ class PostDetailsScreen extends StatelessWidget {
             GestureDetector(
               onTap: () {},
               child: PostCard(
-                post: post,
+                post: posts?.firstWhere((p) => p.id == postId) ?? post!,
               ),
             ),
           ],

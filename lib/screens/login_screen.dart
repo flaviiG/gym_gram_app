@@ -59,81 +59,84 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            colors: [Color(0xff545454), Color(0xff000000), Color(0xff250404)],
-            stops: [0.1, 0.5, 0.75],
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-          )),
-        ),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // const SizedBox(height: 20),
+                // logo
+                Image.asset(
+                  'assets/images/gymGram.png',
+                  height: 70,
+                ),
+
+                const SizedBox(height: 80),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    _message,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'FjallaOne',
+                      // fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 50),
+
+                Column(
                   children: [
-                    // const SizedBox(height: 20),
-                    // logo
-                    Image.asset(
-                      'assets/images/gymGram.png',
-                      height: 120,
-                    ),
-
-                    const SizedBox(height: 50),
-
-                    // welcome back, you've been missed!
-                    Text(
-                      _message,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'FjallaOne',
-                        // fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    const SizedBox(height: 50),
-
                     TextInput(
-                      placeholder: 'Username',
+                      label: 'Username',
+                      placeholder: 'yourUsername',
                       controller: usernameController,
                       isPassword: false,
                     ),
-
                     const SizedBox(height: 10),
-
                     TextInput(
-                      placeholder: 'Password',
+                      label: 'Password',
+                      placeholder: '********',
                       controller: passwordController,
                       isPassword: true,
                     ),
+                  ],
+                ),
 
-                    const SizedBox(height: 10),
+                const SizedBox(height: 60),
 
+                Column(
+                  children: [
                     LoginButton(
                         child: _isLoading
                             ? const AspectRatio(
                                 aspectRatio: 1 / 1,
-                                child: CircularProgressIndicator.adaptive())
+                                child: Padding(
+                                  padding: EdgeInsets.all(20),
+                                  child: CircularProgressIndicator.adaptive(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white),
+                                  ),
+                                ),
+                              )
                             : const Text(
                                 'Log in',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 18,
                                 ),
                               ),
                         onClick: () {
                           _login(context, usernameController.text,
                               passwordController.text);
                         }),
-
-                    // forgot password?
+                    const SizedBox(height: 5),
+                    // Forgot password button
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Row(
@@ -146,7 +149,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             },
                             child: Text(
                               'Forgot Password?',
-                              style: TextStyle(color: Colors.grey[500]),
+                              style: TextStyle(
+                                  color: Colors.grey[400], fontSize: 14),
                             ),
                           ),
                         ],
@@ -155,16 +159,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     const SizedBox(height: 25),
 
-                    const SizedBox(height: 50),
-
                     // not a member? register now
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'Not a member?',
-                          style:
-                              TextStyle(color: Colors.grey[100], fontSize: 20),
+                          style: TextStyle(
+                            color: Colors.grey[100],
+                            fontSize: 18,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         GestureDetector(
@@ -178,19 +182,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             style: TextStyle(
                               color: CupertinoColors.destructiveRed,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 19,
                             ),
                           ),
                         ),
                       ],
                     )
                   ],
-                ),
-              ),
+                )
+              ],
             ),
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }

@@ -76,8 +76,11 @@ class _PostReportCardState extends ConsumerState<PostReportCard> {
             children: [
               GestureDetector(
                 onTap: () => Navigator.of(context).push(TransparentRoute(
-                    builder: (ctx) =>
-                        PostDetailsScreen(post: widget.report.post))),
+                    builder: (ctx) => PostDetailsScreen(
+                          post: widget.report.post,
+                          postId: widget.report.post.id,
+                          myPost: false,
+                        ))),
                 child: CachedNetworkImage(
                   imageUrl:
                       '$kBaseStorageUrl/posts/${widget.report.post.user.id}/${widget.report.post.photo}',

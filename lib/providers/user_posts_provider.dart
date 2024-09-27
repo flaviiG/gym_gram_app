@@ -51,6 +51,14 @@ class UserPostsNotifier extends StateNotifier<List<Post>> {
       return post;
     }).toList();
   }
+
+  void updateNumComments(String postId, int numComments) {
+    print('DEBUG::::::::::updating num commetnss');
+    state = state
+        .map((post) =>
+            post.id == postId ? post.copyWith(numComments: numComments) : post)
+        .toList();
+  }
 }
 
 final userPostsProvider =

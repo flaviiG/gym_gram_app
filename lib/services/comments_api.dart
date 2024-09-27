@@ -5,7 +5,7 @@ const baseUrl = '$kApiBaseUrl/comments';
 
 final dio = Dio();
 
-Future<void> createComment(String postId, String commentText) async {
+Future<void> createCommentApi(String postId, String commentText) async {
   //
   //
   final String? jwt = await storage.read(key: "jwt");

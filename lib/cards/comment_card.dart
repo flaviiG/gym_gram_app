@@ -47,11 +47,11 @@ class CommentCard extends StatelessWidget {
                 children: [
                   Text(
                     comment.user.username,
-                    style: const TextStyle(fontSize: 10),
+                    style: const TextStyle(fontSize: 12),
                   ),
                   Text(
                     comment.commentText,
-                    style: const TextStyle(fontSize: 15),
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ],
               ),
@@ -62,7 +62,7 @@ class CommentCard extends StatelessWidget {
             fit: FlexFit.tight,
             child: Text(
               DateFormat('yMd').format(DateTime.parse(comment.date)),
-              style: TextStyle(fontSize: 10, color: Colors.grey[700]),
+              style: TextStyle(fontSize: 12, color: Colors.grey[500]),
             ),
           )
         ]),

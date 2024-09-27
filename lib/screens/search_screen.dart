@@ -5,6 +5,7 @@ import 'package:gym_gram_app/providers/user_provider.dart';
 import 'package:gym_gram_app/screens/my_profile_screen.dart';
 import 'package:gym_gram_app/screens/profile_screen.dart';
 import 'package:gym_gram_app/services/user_api.dart';
+import 'package:gym_gram_app/utils/globals.dart';
 
 class SearchSreen extends ConsumerStatefulWidget {
   const SearchSreen({super.key});
@@ -15,6 +16,7 @@ class SearchSreen extends ConsumerStatefulWidget {
 
 class _SearchSreenState extends ConsumerState<SearchSreen> {
   final TextEditingController searchController = TextEditingController();
+
   bool showUsers = false;
 
   @override
@@ -33,8 +35,13 @@ class _SearchSreenState extends ConsumerState<SearchSreen> {
           onTap: () => setState(() {
             showUsers = false;
           }),
+          // onTapOutside: (event) {
+          //   print('DEBUG::::::::onTapOutside');
+          //   FocusManager.instance.primaryFocus?.unfocus();
+          // },
+
           decoration: const InputDecoration(
-            labelText: 'Search for a user',
+            labelText: 'Search user',
           ),
           controller: searchController,
           onFieldSubmitted: (String _) {
@@ -92,7 +99,7 @@ class _SearchSreenState extends ConsumerState<SearchSreen> {
                           },
                           leading: CircleAvatar(
                             backgroundImage: CachedNetworkImageProvider(
-                                'http://10.0.2.2:8080/img/users/${snapshot.data![index].photo}'),
+                                '$kBaseStorageUrl/users/${snapshot.data![index].photo}'),
                           ),
                           title: Text(
                             (snapshot.data![index].username),

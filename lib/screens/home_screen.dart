@@ -29,12 +29,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: IndexedStack(
         index: _selectedPageIndex,
-        children: const [
-          FeedScreen(),
-          SearchSreen(),
-          AddPostScreen(),
-          WorkoutsScreen(),
-          MyProfileScreen(),
+        children: [
+          const FeedScreen(),
+          SearchSreen(key: UniqueKey()),
+          const AddPostScreen(),
+          const WorkoutsScreen(),
+          const MyProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

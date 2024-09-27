@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gym_gram_app/cards/comment_card.dart';
 import 'package:gym_gram_app/providers/comments_provider.dart';
+import 'package:gym_gram_app/providers/feed_provider.dart';
+import 'package:gym_gram_app/providers/my_posts_provider.dart';
+import 'package:gym_gram_app/providers/user_posts_provider.dart';
 import 'package:gym_gram_app/providers/user_provider.dart';
 import 'package:gym_gram_app/services/comments_api.dart';
 import 'package:gym_gram_app/utils/globals.dart';
@@ -22,9 +25,9 @@ class CommentsScreen extends ConsumerWidget {
     final commentsAsync = ref.watch(commentsProvider(postId));
     final profilePic = ref.read(userProvider)!.photo;
 
-    void createCommentLocal() async {
+    void createComment() async {
       if (commentController.text.isNotEmpty) {
-        await createComment(postId, commentController.text);
+        await createCommentApi(postId, commentController.text);
         ref.invalidate(commentsProvider);
         if (!context.mounted) {
           return;
@@ -34,29 +37,53 @@ class CommentsScreen extends ConsumerWidget {
       }
     }
 
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Comments'),
-        ),
-        body: Stack(
-          children: [
-            commentsAsync.when(
-                data: (comments) => ListView.builder(
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        print('Popping num comments');
+        int? numComments;
+        commentsAsync.whenData((comments) => numComments = comments.length);
+        if (numComments != null) {
+          ref
+              .read(myPostsProvider.notifier)
+              .updateNumComments(postId, numComments!);
+
+          ref
+              .read(userPostsProvider.notifier)
+              .updateNumComments(postId, numComments!);
+        }
+        Navigator.of(context).pop();
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Comments'),
+          ),
+          body: Stack(
+            children: [
+              commentsAsync.when(
+                  data: (comments) {
+                    ref
+                        .read(feedAsyncProvider.notifier)
+                        .updateNumComments(postId, comments.length);
+
+                    return ListView.builder(
                       itemCount: comments.length,
                       itemBuilder: (context, index) =>
                           CommentCard(comment: comments[index]),
-                    ),
-                error: (error, stackTrace) => Center(
-                      child: Text(error.toString()),
-                    ),
-                loading: () => const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    )),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
+                    );
+                  },
+                  error: (error, stackTrace) => Center(
+                        child: Text(error.toString()),
+                      ),
+                  loading: () => const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      )),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: const BoxDecoration(color: Colors.black),
                   height: 50,
                   child: Row(
                     children: [
@@ -76,7 +103,7 @@ class CommentsScreen extends ConsumerWidget {
                       ),
                       const SizedBox(width: 10),
                       IconButton(
-                          onPressed: createCommentLocal,
+                          onPressed: createComment,
                           icon: const Icon(
                             CupertinoIcons.chat_bubble_text,
                             size: 30,
@@ -84,9 +111,9 @@ class CommentsScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-              ),
-            )
-          ],
-        ));
+              )
+            ],
+          )),
+    );
   }
 }
